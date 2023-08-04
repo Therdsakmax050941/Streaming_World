@@ -22,25 +22,48 @@ require_once('../Back-End/function.php');
               </button>
             </div>
             <div class="modal-body">
-              <form action="../Back-End/add_product.php" method="post" enctype="multipart/form-data">
-                <div class="mb-3">
-                  <label for="productName" class="form-label">Product Name</label>
-                  <input type="text" class="form-control" id="productName" name="productName" required>
-                </div>
-                <div class="mb-3">
-                  <label for="productPrice" class="form-label">Product Price</label>
-                  <input type="number" class="form-control" id="productPrice" name="productPrice" required>
-                </div>
-                <div class="mb-3">
-                  <label for="productDescription" class="form-label">Product Description</label>
-                  <textarea class="form-control" id="productDescription" name="productDescription" rows="3" required></textarea>
-                </div>
-                <div class="mb-3">
-                  <label for="productImage" class="form-label">Product Image</label>
-                  <input type="file" class="form-control" id="productImage" name="productImage" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
+              <div class="container mt-4">
+                <h2>สร้างสินค้าใน WooCommerce</h2>
+                <form method="post" action="../Back-End/add_product_api.php" enctype="multipart/form-data">
+                  <div class="form-group">
+                    <label for="name">ชื่อสินค้า:</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="price">ราคา:</label>
+                    <input type="text" class="form-control" id="price" name="price" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="description">รายละเอียดสินค้า:</label>
+                    <textarea class="form-control" id="description" name="description" rows="4" cols="50"></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="short_description">คำอธิบายสั้นๆ:</label>
+                    <textarea class="form-control" id="short_description" name="short_description" rows="2" cols="50"></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="category">หมวดหมู่:</label>
+                    <select class="form-control" id="category" name="category[]" multiple required>
+                      <option value="9">Category 1</option>
+                      <option value="14">Category 2</option>
+                      <!-- เพิ่มหมวดหมู่อื่นๆ ตามต้องการ -->
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="image">อัปโหลดรูปภาพ:</label>
+                    <input type="file" id="image" name="image" required><br>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary">สร้างสินค้า</button>
+                </form>
+
+              </div>
+
             </div>
           </div>
         </div>
@@ -81,7 +104,7 @@ require_once('../Back-End/function.php');
           </div>
         </div>
       </div>
-      <?php showProductList(); ?>
+      <?php require_once('../Back-End/get_product.php'); ?>
     </div>
 
   </div>
@@ -107,6 +130,26 @@ require_once('../Back-End/function.php');
 <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  function createProduct() {
+    const form = document.getElementById('productForm');
+    const formData = new FormData(form);
+
+    axios.post('../Back-End/add_product_api.php', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      })
+      .then(response => {
+        console.log('Product created successfully with ID: ' + response.data.id);
+        // Do something after product is successfully created
+      })
+      .catch(error => {
+        console.error('Error creating product:', error);
+      });
+  }
+</script>
 <script>
   function confirmDelete(productId) {
     if (confirm("Are you sure you want to delete this product?")) {
@@ -143,7 +186,7 @@ require_once('../Back-End/function.php');
       },
       error: function(xhr, status, error) {
         // แสดงข้อความผิดพลาดใน AJAX พร้อมกับแสดง responseText ที่ส่งกลับมาจากเซิร์ฟเวอร์
-        alert('Failed to fetch product data: ' + error + '\nResponse: ' + xhr.responseText);// แสดงเนื้อหาของ response จากการเรียกใช้งาน AJAX/ แสดงเนื้อหาของ response จากการเรียกใช้งาน AJAX
+        alert('Failed to fetch product data: ' + error + '\nResponse: ' + xhr.responseText); // แสดงเนื้อหาของ response จากการเรียกใช้งาน AJAX/ แสดงเนื้อหาของ response จากการเรียกใช้งาน AJAX
       }
     });
   }
