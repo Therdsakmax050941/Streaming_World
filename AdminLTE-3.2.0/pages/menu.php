@@ -3,7 +3,6 @@ session_start();
 if (isset($_GET['user'])) {
   $_SESSION['name'] = sha1($_GET['user']);
   if (isset($_SESSION['name'])) {
-    
     $encodedUser = $_SESSION['name'];
     $name = $encodedUser;
   } else {
@@ -174,7 +173,7 @@ if (isset($_GET['user'])) {
             <img src="../image/user1.png" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block"><?php echo $name ?></a>
+            <a href="#" class="d-block"><?php echo $_SESSION['name']; ?></a>
 
           </div>
           <a href="../Back-End/logout.php" type="button" class="btn btn-outline-danger">

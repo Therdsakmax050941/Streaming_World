@@ -13,8 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $loginResult = login($username, $password);
     $usernamemd5 = sha1($username);
     if ($loginResult === true) { 
+        
         header("Location: ../pages/dashboard.php?user=$usernamemd5");
-        exit();
     } elseif($loginResult === false) {
         // ถ้า login ไม่สำเร็จ ให้แสดง SweetAlert2 alert
         echo '<script>
@@ -53,7 +53,6 @@ function login($username, $password)
 
         // เปรียบเทียบรหัสผ่านที่ถูกเข้ารหัสแบบ SHA1
         if (sha1($password) === $user['password']) {
-            // สำเร็จให้ return true
             return true;
         } else {
             // รหัสผ่านไม่ถูกต้อง แสดง SweetAlert2 และเปลี่ยนเส้นทางไปยังหน้า login.php

@@ -33,21 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If the image upload is successful and you have the image URL
     if ($image_url) {
       // Include the WooCommerce API client library
-      require __DIR__ . '/vendor/autoload.php';
-
-      // Initialize the WooCommerce client
-      $consumer_key = "ck_c6222492ed9890963ed94cb8704514662d133e2a";
-      $consumer_secret = "cs_4adc9d2aa9a747177561624c9281b1badebcb2ce";
-      $store_url = "https://streamth.co/";
-
-      $woocommerce = new Automattic\WooCommerce\Client(
-        $store_url,
-        $consumer_key,
-        $consumer_secret,
-        [
-          'version' => 'wc/v3',
-        ]
-      );
+      require_once ('../Back-End/woo_connection.php');
 
       // Prepare data for creating the product in WooCommerce
       $data = [
