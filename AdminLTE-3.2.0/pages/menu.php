@@ -1,7 +1,7 @@
 <?php 
 session_start();
-if(isset($_SESSION['name'])){
-  $name = $_SESSION['name'];
+if(isset($_GET['user'])){
+  $name = md5($_GET['user']);
 }else{
   header("Location: ../login.php");
   exit();

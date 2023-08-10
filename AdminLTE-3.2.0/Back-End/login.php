@@ -13,8 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $loginResult = login($username, $password);
 
     if ($loginResult === true) {
-        $_SESSION['name'] = $username;
-        header("Location: ../pages/dashboard.php");
+        
+        header("Location: ../pages/dashboard.php?user=$username");
         exit();
     } elseif($loginResult === false) {
         // ถ้า login ไม่สำเร็จ ให้แสดง SweetAlert2 alert
