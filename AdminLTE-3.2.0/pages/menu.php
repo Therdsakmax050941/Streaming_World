@@ -2,15 +2,14 @@
 session_start();
 if (isset($_GET['user'])) {
   $_SESSION['name'] = sha1($_GET['user']);
-  if (isset($_SESSION['name'])) {
-    $encodedUser = $_SESSION['name'];
-    $name = $encodedUser;
-  } else {
-    header("Location: ../login.php");
-    exit();
-  }
 }
-
+if (isset($_SESSION['name'])) {
+  $encodedUser = $_SESSION['name'];
+  $name = $encodedUser;
+} else {
+  header("Location: ../Back-End/logout.php");
+  exit();
+}
 
 ?>
 <!DOCTYPE html>
@@ -216,13 +215,15 @@ if (isset($_GET['user'])) {
               <a href="../pages/users_admin.php?menu=2" class="nav-link <?php if (isset($_GET['menu']) && $_GET['menu'] == 2) {
                                                                           echo 'active';
                                                                         } ?>">
-                <i class="nav-icon fas fa-th"></i>
+                <i class="nav-icon far fa-plus-square"></i>
                 <p>
                   การจัดการ Users Admin
                 </p>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item <?php if (isset($_GET['menu']) && $_GET['menu'] == 3) {
+                                            echo 'menu-is-opening menu-open';
+                                          } ?>">
               <a href="#" class="nav-link <?php if (isset($_GET['menu']) && $_GET['menu'] == 3) {
                                             echo 'active';
                                           } ?> ">
@@ -235,21 +236,25 @@ if (isset($_GET['user'])) {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./package.php?menu=3" class="nav-link">
+                  <a href="./package.php?treeview=1&menu=3" class="nav-link <?php if (isset($_GET['treeview']) && $_GET['treeview'] == 1) {
+                                            echo 'active';
+                                          } ?>">
                     <i class="far fa-circle nav-icon"></i>
                     <p>จัดการ Package</p>
                     <span class="badge badge-info right">2</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../pages/order.php" class="nav-link">
+                  <a href="../pages/order.php?treeview=2&menu=3" class="nav-link  <?php if (isset($_GET['treeview']) && $_GET['treeview'] == 2) {
+                                            echo 'active';
+                                          } ?>">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Order</p>
                     <span class="badge badge-info right">2</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a href="../pages/order.php?treeview=3&menu=3" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Broadcast Message</p>
                   </a>

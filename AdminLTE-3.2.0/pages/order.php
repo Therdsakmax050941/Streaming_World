@@ -7,13 +7,31 @@ require_once('../Back-End/function.php');
 
 
   <div class=content>
-    <h2 style="margin-left: 35%;">การจัดการออเดอร์</h2>
-
-    
-      <?php showOrderList(); ?>
+    <h2 class="text-center">การจัดการออเดอร์</h2>
+    <div class="container mt-5">
+      <?php include_once('../Back-End/order/get_order.php') ?>
+    </div>
+    <!-- Modal เพื่อแสดงข้อมูลลูกค้า -->
+    <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">รายละเอียดออร์เดอร์</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="orderDetails"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
+
+
   </div>
+</div>
 
 
 </div>
@@ -35,8 +53,31 @@ require_once('../Back-End/function.php');
 </aside>
 <!-- /.control-sidebar -->
 </div>
+<script>
+  $(document).ready(function() {
+    $('.btn-view').click(function() {
+      var orderId = $(this).data('order-id');
+      $.ajax({
+        type: 'GET',
+        url: '../Back-End/order/get_all_orders.php',
+        data: {
+          order_id: orderId
+        },
+        success: function(response) {
+          $('#orderDetails').html(response);
+          $('#viewModal').modal('show');
+        },
+        error: function() {
+          alert('Error fetching orders.');
+        }
+      });
+    });
+  });
+</script>
 
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- jQuery -->
 <script src="../plugins/jquery/jquery.min.js"></script>

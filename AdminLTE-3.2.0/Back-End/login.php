@@ -12,10 +12,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // เรียกใช้ฟังก์ชัน login และตรวจสอบผลลัพธ์
     $loginResult = login($username, $password);
     $usernamemd5 = sha1($username);
-    if ($loginResult === true) { 
-        
-        header("Location: ../pages/dashboard.php?user=$usernamemd5");
-    } elseif($loginResult === false) {
+    if ($loginResult === true) {
+        echo '<script>
+                window.location.href = "../pages/dashboard.php?user='.$usernamemd5.'";
+              </script>';
+        exit();
+    } elseif ($loginResult === false) {
         // ถ้า login ไม่สำเร็จ ให้แสดง SweetAlert2 alert
         echo '<script>
                 alert("กรุณาตรวจสอบความถูกต้องอีกครั้ง!!");
